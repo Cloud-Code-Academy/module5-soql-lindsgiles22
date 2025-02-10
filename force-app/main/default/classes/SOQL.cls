@@ -49,9 +49,9 @@ public with sharing class SOQL {
 	 * @return A list of Contact Ids.
 	 * Update the corresponding test class and testGetContactIdsByLastName method to cover this method
 	 */
-	//[public | private ] [static] data_type method_name (input parameters) {
-	//  The body of the method
-	//}
+	public static List<Contact> getSmithJonesContacts() {
+		return [SELECT Id FROM Contact WHERE LastName IN ('Smith', 'Jones')];
+	}
 
 	/**
 	 * Question 4
