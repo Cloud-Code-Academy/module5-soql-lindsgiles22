@@ -206,7 +206,8 @@ public with sharing class SOQL {
 	 * @return A list of Contacts
 	 */
 	public static List<Contact> getBirthdateContacts() {
-		return null; // Replace null with the variable you used to store the result
+		List<Contact> birthdateContacts = [SELECT Birthdate, Name FROM Contact WHERE Birthdate != NULL ORDER BY Birthdate DESC LIMIT 3];
+		return birthdateContacts; 
 	}
 
 	/**
