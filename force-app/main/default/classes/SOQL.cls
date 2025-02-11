@@ -251,9 +251,13 @@ public with sharing class SOQL {
 		Map<Id, String> accountIdsToNames = new Map<Id, String>();
 
 		// Query the Accounts
+		List<Account> accountsNotInCountry = [SELECT Name, Id FROM Account WHERE Country != :country];
 		// Loop through each Account and add the Id and Name to the map
+		for (Account a : accountsNotInCountry){
+			accountIdsToNames.put(a.Id, a.Name);
+		}
 
-		return null; // Replace null with the variable you used to store the result
+		return accountIdsToNames;
 	}
 
 	/**
