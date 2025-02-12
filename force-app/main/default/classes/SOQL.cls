@@ -341,14 +341,6 @@ public with sharing class SOQL {
 		return matchedAccounts;
 	}
 
-		
-
-
-
-		// Query the Accounts
-		return null; // Replace null with the variable you used to store the result
-	}
-
 	/**
 	 * Question 23
 	 * Clones and Inserts Opportunity Line Items from an original Opportunity to a list of cloned Opportunities.
@@ -359,14 +351,40 @@ public with sharing class SOQL {
 	 */
 	public static void cloneLineItems(Id origOppId, List<Id> cloneOppIds) {
 		// Query the original Opportunity Line Items
+		List<OpportunityLineItem> originalOppLineItems = [SELECT Id, OpportunityId, Quantity FROM OpportunityLineItem WHERE OpportunityId = :origOppId];
 
 		// Create a list to hold the new line items
-
-		// Generate a random number between 1 and 3
+		List<OpportunityLineItem> newOppLineItems = new List<OpportunityLineItem>();
 
 		// Loop through each cloned Opportunity Id
+		for(Id cloneOppId : cloneOppIds) {
+			
+			// Loop through each original line item
+			for(OpportunityLineItem originalLineItem : originalOppLineItems){
 
-		// Loop through each original line item
+				// Create a new line item for the cloned Opportunity
+				OpportunityLineItem clonedLineItem = originalLineItem.clone(false, true, false, false);
+
+				//Set the OpportunityId to the current cloned Opportunity
+				clonedLineItem.OpportunityId = cloneOppId;
+
+				// Generate a random number between 1 and 3
+				Integer randomNumber = Integer.valueOf(Math.floor(Math.random() * 3) + 1);
+				clonedLineItem.Quantity = randomQuantity;
+
+				// Add cloned line item to new list
+				newOppLineItems.add(clonedLineItem);
+
+			}
+		}
+
+		// Insert new line items
+		insert newOppLineItems;
+	}
+
+		
+
+		
 
 		// Clone the original line item and add the random number to the quantity
 
