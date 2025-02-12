@@ -304,24 +304,46 @@ public with sharing class SOQL {
 
 	/**
 	 * Question 22
-	 * Extracts email domains from them leads, then finds Accounts with matching website domains
+	 * Extracts email domains from the leads, then finds Accounts with matching website domains
 	 * If Lead Email = test@test.com return account with website = www.test.com
 	 * Example: findAccountsByLeadEmailDomains([set of lead ids]) should return a list of Accounts with matching email domains
 	 * @param A set of Lead Ids.
 	 * @return A list of Accounts with matching email domains.
 	 */
 	public static List<Account> findAccountsByLeadEmailDomains(Set<Id> leadIds) {
+		// Create set to store email domains
+		Set<String> emailDomains = new Set<String>();
+
 		// Query the Leads
+		List<Lead> leadsFound = [SELECT Email FROM Lead WHERE Id = :leadIds];
+		
+		// Extract email domains
+		for(Lead lead : leadsFound) {
+			String email = lead.Email;
+			if (email != null && email.contains('@')) {
+				String domain = email.split('@')[1];
+				emailDomains.add(domain);
+			}
+		}
+		// Query Accounts using Website
+		List<Account> accountsWithWebsites = [SELECT Id, Name, Website FROM Account WHERE Website != NULL];
+		List<Account> matchedAccounts = new List<Account>();
+		// Find accounts where webiste matches domains
+		for(Account acc : accountsWithWebsites) {
+			String websiteDomain = acc.Website.replace('www.', ''); // Removes 'www.'
 
-		// Create a set of email domains from the Leads
+			if(emailDomains.contains(websiteDomain)) {
+				matchedAccounts.add(acc);
 
-		// Loop through each Lead
+			}
+		}
 
-		// Get the email from the Lead
+		return matchedAccounts;
+	}
 
-		// Check if the email is not null
+		
 
-		// Add the email domain to the set
+
 
 		// Query the Accounts
 		return null; // Replace null with the variable you used to store the result
