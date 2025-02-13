@@ -74,7 +74,7 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetAccountCount method to cover this method
 	 */
 	public static Integer countOfAccounts () {
-		List<Acount> accounts = [SELECT Id FROM Account];
+		List<Account> accounts = [SELECT Id FROM Account];
 		return accounts.size();
 	}
 
@@ -93,8 +93,8 @@ public with sharing class SOQL {
 	  	List<Task> tasks = [SELECT Id FROM Task WHERE ActivityDate <= :System.today().addDays(7)];
 	  
 		// Populate the map with Task Id as key and Task record as the value
-		for (Task t : taskDueDates) {
-			taskDuedates.put(t.Id, t);
+		for (Task t : tasks) {
+			taskDueDates.put(t.Id, t);
 		}
 	  	return taskDueDates;
 	}
@@ -155,7 +155,7 @@ public with sharing class SOQL {
 		// Create a list to hold the Contact LastNames
 		List<String> contactLastNames = new List<String>();
 		// Query the Contacts
-		List<Contact> contacts = [SELECT LastName FROM Contact WHERE Account = :accountId];
+		List<Contact> contacts = [SELECT LastName FROM Contact WHERE AccountId = :accountId];
 		
 		// Loop through each Contact and add the LastName to the list
 		for (Contact c : contacts) {
@@ -175,7 +175,7 @@ public with sharing class SOQL {
 	 */
 	public static Decimal getTotalRevenueByStage(String stage) {
 		// Use AggregateQuery to get the total revenue
-		AggregateResult[] totalRevenue = [SELECT SUM(Amount) FROM Opportunity WHERE StageName = :stage AND Amount > 10000];
+		AggregateResult[] totalRevenue = [SELECT SUM(Amount) totalRevenue FROM Opportunity WHERE StageName = :stage AND Amount > 10000];
 		// Return the total revenue
 		return totalRevenue; 
 	}
@@ -392,7 +392,6 @@ public with sharing class SOQL {
 		List<Opportunity> opportunityDetailsForClosedWon = [SELECT Id, Name, Account.Name, Owner.Name, AccountId FROM Opportunity WHERE StageName = 'Closed Won'];
 		return opportunityDetailsForClosedWon;
 	}
-
 
 	/**
 	 * Question 25
