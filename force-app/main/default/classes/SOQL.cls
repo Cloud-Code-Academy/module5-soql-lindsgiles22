@@ -177,7 +177,7 @@ public with sharing class SOQL {
 		// Use AggregateQuery to get the total revenue
 		AggregateResult[] totalRevenue = [SELECT SUM(Amount) totalRevenue FROM Opportunity WHERE StageName = :stage AND Amount > 10000];
 		// Return the total revenue
-		return totalRevenue; 
+		return result.get('totalRevenue') != null ? (Decimal) result.get('totalRevenue') : 0;
 	}
 
 	/**
@@ -251,7 +251,7 @@ public with sharing class SOQL {
 		Map<Id, String> accountIdsToNames = new Map<Id, String>();
 
 		// Query the Accounts
-		List<Account> accountsNotInCountry = [SELECT Name, Id FROM Account WHERE Country != :country];
+		List<Account> accountsNotInCountry = [SELECT Name, Id FROM Account WHERE BillingCountry != :country];
 		// Loop through each Account and add the Id and Name to the map
 		for (Account a : accountsNotInCountry){
 			accountIdsToNames.put(a.Id, a.Name);
