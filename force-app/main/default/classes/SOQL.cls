@@ -94,7 +94,7 @@ public with sharing class SOQL {
 	  
 		// Populate the map with Task Id as key and Task record as the value
 		for (Task t : taskDueDates) {
-			taskDuedates.put(t.Id, t)
+			taskDuedates.put(t.Id, t);
 		}
 	  	return taskDueDates;
 	}
@@ -392,6 +392,7 @@ public with sharing class SOQL {
 		List<Opportunity> opportunityDetailsForClosedWon = [SELECT Id, Name, Account.Name, Owner.Name, AccountId FROM Opportunity WHERE StageName = 'Closed Won'];
 		return opportunityDetailsForClosedWon;
 	}
+
 
 	/**
 	 * Question 25
