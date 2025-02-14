@@ -146,7 +146,7 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetLeadsBySourceOrTitle method to cover this method
 	 */
 	public static List<Lead> findLeads(String leadSource, String keyword) {
-		return [SELECT Id, LeadSource,LastName Title FROM Lead WHERE (LeadSource = :leadSource OR Title LIKE :('%' + keyword + '%'))];
+		return [SELECT Id, LeadSource,LastName, Title FROM Lead WHERE (LeadSource = :leadSource OR Title LIKE :('%' + keyword + '%'))];
 	}
 
 	/**
