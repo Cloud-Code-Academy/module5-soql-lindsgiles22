@@ -370,7 +370,7 @@ public with sharing class SOQL {
 
 				// Generate a random number between 1 and 3
 				Integer randomNumber = Integer.valueOf(Math.floor(Math.random() * 3) + 1);
-				clonedLineItem.Quantity = randomQuantity;
+				clonedLineItem.Quantity = randomNumber;
 
 				// Add cloned line item to new list
 				newOppLineItems.add(clonedLineItem);
@@ -382,6 +382,7 @@ public with sharing class SOQL {
 		insert newOppLineItems;
 	}
 	}
+
 
 	/**
 	 * Question 24
