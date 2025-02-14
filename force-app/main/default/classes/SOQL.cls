@@ -68,7 +68,7 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetClosedWonOpportunityCountByAccount method to cover this method
 	 */
 	public static List<Opportunity> closedWonOpps(Id accountId) {
-	    return [SELECT Id, Name, StageName, Amount, CloseDate FROM Opportunity WHERE StageName = 'Closed Won' AND AccountId = :accountId];
+	    return [SELECT Id, Name, StageName, Amount, AccountId CloseDate FROM Opportunity WHERE StageName = 'Closed Won' AND AccountId = :accountId];
 	}
 
 	/**
