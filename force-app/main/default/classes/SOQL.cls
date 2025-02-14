@@ -381,7 +381,7 @@ public with sharing class SOQL {
 		// Insert new line items
 		insert newOppLineItems;
 	}
-	}
+	
 
 
 	/**
@@ -397,7 +397,7 @@ public with sharing class SOQL {
         ];
         return opportunityDetailsForClosedWon;
     }
-}
+
 
 
 	/**
