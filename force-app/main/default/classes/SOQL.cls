@@ -39,7 +39,7 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetContactsByFirstName method to cover this method
 	 */
 	public static List<Contact> getJohnContacts() {
-		return [SELECT Id FROM Contact WHERE FirstName = 'John'];
+		return [SELECT Id, Name, FirstName FROM Contact WHERE FirstName = 'John'];
 	}
 
 	/**
@@ -112,7 +112,7 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetContactsByEmailDomain method to cover this method
 	 */
 	public static List<Contact> contactsWithExampleDotCom() {
-	  return [SELECT Id, Name FROM Contact WHERE Email LIKE '%@example.com'];
+	  return [SELECT Id, Name, Email FROM Contact WHERE Email LIKE '%@example.com'];
 	}
 
 	/**
@@ -146,7 +146,7 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetLeadsBySourceOrTitle method to cover this method
 	 */
 	public static List<Lead> findLeads(String leadSource, String keyword) {
-		return [SELECT Id, LeadSource,LastName, Title FROM Lead WHERE (LeadSource = :leadSource OR Title LIKE :('%' + keyword + '%'))];
+		return [SELECT Id, LeadSource,LastName, Title, Company FROM Lead WHERE (LeadSource = :leadSource OR Title LIKE :('%' + keyword + '%'))];
 	}
 
 	/**
