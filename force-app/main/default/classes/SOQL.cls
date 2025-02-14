@@ -177,7 +177,7 @@ public with sharing class SOQL {
 		// Use AggregateQuery to get the total revenue
 		AggregateResult[] totalRevenue = [SELECT SUM(Amount) totalRevenue FROM Opportunity WHERE StageName = :stage AND Amount > 10000];
 		// Return the total revenue
-		return result.get('totalRevenue') != null ? (Decimal) result.get('totalRevenue') : 0;
+		return (totalRevenue.isEmpty() || totalRevenue[0].get('totalRevenue') == null) ? 0 : (Decimal) totalRevenue[0].get('totalRevenue');
 	}
 
 	/**
@@ -390,9 +390,15 @@ public with sharing class SOQL {
 	 * @return A list of filtered Opportunity
 	 */
 	public static List<Opportunity> getOpportunityDetailsForClosedWon() {
-		List<Opportunity> opportunityDetailsForClosedWon = [SELECT Id, Name, Account.Name, Owner.Name, AccountId FROM Opportunity WHERE StageName = 'Closed Won'];
-		return opportunityDetailsForClosedWon;
-	}
+        List<Opportunity> opportunityDetailsForClosedWon = [
+            SELECT Id, Name, Account.Name, Owner.Name, AccountId 
+            FROM Opportunity 
+            WHERE StageName = 'Closed Won'
+        ];
+        return opportunityDetailsForClosedWon;
+    }
+}
+
 
 	/**
 	 * Question 25
