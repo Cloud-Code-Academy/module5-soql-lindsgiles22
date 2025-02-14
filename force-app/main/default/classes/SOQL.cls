@@ -112,7 +112,7 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetContactsByEmailDomain method to cover this method
 	 */
 	public static List<Contact> contactsWithExampleDotCom() {
-	  return [SELECT Id FROM Contact WHERE Email LIKE '%@example.com'];
+	  return [SELECT Id, Name FROM Contact WHERE Email LIKE '%@example.com'];
 	}
 
 	/**
@@ -123,7 +123,7 @@ public with sharing class SOQL {
 	 * @return A list of Opportunity records.
 	 */
 	public static List<Opportunity> getOpportunitiesByNameKeyword(String keyword) {
-		return [SELECT Id FROM Opportunity WHERE Name LIKE :('%' + keyword + '%')];
+		return [SELECT Id, Name FROM Opportunity WHERE Name LIKE :('%' + keyword + '%')];
 	}
 
 	/**
@@ -132,7 +132,7 @@ public with sharing class SOQL {
 	 * @return A list of Case records.
 	 */
 	public static List<Case> getFilterCaseOrigins() {
-		return [SELECT Id FROM Case WHERE Origin NOT IN ('Web', 'Email') AND Origin != NULL];
+		return [SELECT Id, Origin FROM Case WHERE Origin NOT IN ('Web', 'Email') AND Origin != NULL];
 	}
 
 	/**
@@ -146,7 +146,7 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetLeadsBySourceOrTitle method to cover this method
 	 */
 	public static List<Lead> findLeads(String leadSource, String keyword) {
-		return [SELECT Id, LeadSource, Title FROM Lead WHERE (LeadSource = :leadSource OR Title LIKE :('%' + keyword + '%'))];
+		return [SELECT Id, LeadSource,LastName Title FROM Lead WHERE (LeadSource = :leadSource OR Title LIKE :('%' + keyword + '%'))];
 	}
 
 	/**
