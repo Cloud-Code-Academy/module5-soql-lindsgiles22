@@ -407,7 +407,7 @@ public with sharing class SOQL {
 	 */
 	public static void setPrimaryContact() {
 		//Use the getOpportunityDetailsForClosedWon() method to get the Opportunities
-		getOpportunityDetailsForClosedWon();
+		List<Opportunity> opportunityDeatilsForClosedWon = getOpportunityDetailsForClosedWon();
 		// Loop through each opportunity
 		for(Opportunity opp : opportunityDetailsForClosedWon) {
 			if (opp.AccountId != null){
