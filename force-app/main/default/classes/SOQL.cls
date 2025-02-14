@@ -38,8 +38,8 @@ public with sharing class SOQL {
 	 * @return A list of Contact records.
 	 * Update the corresponding test class and testGetContactsByFirstName method to cover this method
 	 */
-	public static List<Contact> getJohnContacts() {
-		return [SELECT Id, FirstName, LastName FROM Contact WHERE FirstName = 'John'];
+	public static List<Id> getJohnContacts() {
+		return [SELECT Id FROM Contact WHERE FirstName = 'John'];
 	}
 
 	/**
