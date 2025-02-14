@@ -355,8 +355,8 @@ public with sharing class SOQL {
 	 * @param List of cloned Opportunity Ids
 	 */
 	public static void cloneLineItems(Id origOppId, List<Id> cloneOppIds) {
-		// Query the original Opportunity Line Items
-		List<OpportunityLineItem> originalOppLineItems = [SELECT Id, OpportunityId FROM OpportunityLineItem WHERE OpportunityId = :origOppId];
+		// Query the original Opportunity Line Items and ensure required fields are retrieved
+		List<OpportunityLineItem> originalOppLineItems = [SELECT Id, OpportunityId, Quantity, UnitPrice, PricebookEntryId FROM OpportunityLineItem WHERE OpportunityId = :origOppId];
 
 		// Create a list to hold the new line items
 		List<OpportunityLineItem> newOppLineItems = new List<OpportunityLineItem>();
@@ -367,15 +367,13 @@ public with sharing class SOQL {
 			// Loop through each original line item
 			for(OpportunityLineItem originalLineItem : originalOppLineItems){
 
-				// Create a new line item for the cloned Opportunity
-				OpportunityLineItem clonedLineItem = originalLineItem.clone(false, true, false, false);
-
-				//Set the OpportunityId to the current cloned Opportunity
-				clonedLineItem.OpportunityId = cloneOppId;
-
-				// Generate a random number between 1 and 3
-				Integer randomNumber = Integer.valueOf(Math.floor(Math.random() * 3) + 1);
-				clonedLineItem.Quantity = randomNumber;
+				// Clone the line item while keeping required fields
+				OpportunityLineItem clonedLineItem = new OpportunityLineItem(
+					OpportunityId = cloneOppId,
+					PricebookEntryId = originalLineItem.PricebookEntryId,
+					UnitPrice = originalLineItem.UnitPrice,
+					Quantity = Integer.valueOf(Math.floor(Math.random() * 3) + 1)
+					);
 
 				// Add cloned line item to new list
 				newOppLineItems.add(clonedLineItem);
