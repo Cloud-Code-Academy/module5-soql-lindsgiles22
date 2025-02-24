@@ -51,12 +51,12 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetContactIdsByLastName method to cover this method
 	 */
 	public static List<Id> getSmithJonesContacts() {
-		List<Contact> contacts = [SELECT Id FROM Contact WHERE LastName IN ('Smith', 'Jones')];
-		List<Id> contactIds = new List<Id>();
-		for (Contact c : contacts) {
-			contactIds.add(c.id);
+		List<Contact> matchingContacts = [SELECT Id FROM Contact WHERE LastName IN ('Smith', 'Jones')];
+		List<Id> contactIdList = new List<Id>();
+		for (Contact contactRecord : matchingContacts) {
+			contactIdList.add(contactRecord.id);
 		}
-		return contactIds;
+		return contactIdList;
 	}
 
 	/**
