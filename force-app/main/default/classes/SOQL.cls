@@ -80,8 +80,7 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetAccountCount method to cover this method
 	 */
 	public static Integer countOfAccounts () {
-		List<Account> accounts = [SELECT Id FROM Account];
-		return accounts.size();
+		return [SELECT COUNT() FROM Account];
 	}
 
 	/**
