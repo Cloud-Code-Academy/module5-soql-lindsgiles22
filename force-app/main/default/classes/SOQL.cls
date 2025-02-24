@@ -126,7 +126,8 @@ public with sharing class SOQL {
 	 * @return A list of Case records.
 	 */
 	public static List<Case> getFilterCaseOrigins() {
-		return [SELECT Id, Origin FROM Case WHERE Origin NOT IN ('Web', 'Email') AND Origin != NULL];
+		Set<String> excludeOrigins = new Set<String>{'Web', 'Email'};
+		return [SELECT Id, Origin FROM Case WHERE Origin NOT IN :excludeOrigins AND Origin != ''];
 	}
 
 	/**
