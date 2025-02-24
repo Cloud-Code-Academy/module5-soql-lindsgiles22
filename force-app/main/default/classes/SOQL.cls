@@ -363,12 +363,11 @@ public with sharing class SOQL {
 			for(OpportunityLineItem originalLineItem : originalOppLineItems){
 
 				// Clone the line item while keeping required fields
-				OpportunityLineItem clonedLineItem = new OpportunityLineItem(
-					OpportunityId = cloneOppId,
-					PricebookEntryId = originalLineItem.PricebookEntryId,
-					UnitPrice = originalLineItem.UnitPrice,
-					Quantity = Integer.valueOf(Math.floor(Math.random() * 3) + 1)
-					);
+				OpportunityLineItem clonedLineItem = originalLineItem.clone(false, true, false, false);
+				
+				// Set the new OpportunityId and adjust the quantity
+				clonedLineItem.OpportunityId = cloneOppId;
+				clonedLineItem.Quantity = Integer.valueOf(Math.floor(Math.random() *3) + 1);
 
 				// Add cloned line item to new list
 				newOppLineItems.add(clonedLineItem);
@@ -377,8 +376,10 @@ public with sharing class SOQL {
 		}
 
 		// Insert new line items
-		insert newOppLineItems;
+		if (!newOppLineItems.isEmpty()) {
+			insert newOppLineItems;
 	}
+}
 	
 
 
