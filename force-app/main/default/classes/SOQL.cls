@@ -216,7 +216,7 @@ public with sharing class SOQL {
 	 * @return A list of Cases
 	 */
 	public static List<Case> getCasesWithStatus() {
-		List<Case> casesWithStatus = [SELECT Status, CreatedDate, ID FROM Case WHERE Status = 'Open' ORDER BY CreatedDate LIMIT 10 OFFSET 5];
+		List<Case> casesWithStatus = [SELECT Status, CreatedDate, ID FROM Case WHERE IsClosed = false ORDER BY CreatedDate LIMIT 10 OFFSET 5];
 		return casesWithStatus;
 	}
 
