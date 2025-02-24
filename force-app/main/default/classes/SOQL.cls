@@ -405,21 +405,36 @@ public with sharing class SOQL {
 	 * Example: if there are two Contacts on the Account, "Billy" and "Abby," the 'Primary_Contact__c' will be set to "Abby."
 	 */
 	public static void setPrimaryContact() {
-		//Use the getOpportunityDetailsForClosedWon() method to get the Opportunities
+		// Create a set of Account Ids from the Opportunities
 		List<Opportunity> opportunityDetailsForClosedWon = getOpportunityDetailsForClosedWon();
-		// Loop through each opportunity
-		for(Opportunity opp : opportunityDetailsForClosedWon) {
-			if (opp.AccountId != null){
-			// Query the Contacts
-			Contact firstContact = [SELECT FirstName, Id FROM Contact WHERE AccountId = :opp.AccountId ORDER BY FirstName Asc LIMIT 1];
-			if (firstContact != null){
-				opp.Primary_Contact__c = firstContact.Id;
+		Set<Id> accountIds = new Set<Id>();
+		for (Opportunity opp : opportunityDetailsForClosedWon) {
+			if (opp.AccountId != null) {
+				accountIds.add(opp.AccountId);
 			}
 		}
-	}
+	
+		// Query the Contacts
+		Map<Id, Contact> accountToContactMap = new Map<Id, Contact>();
+		for (Contact con : [SELECT FirstName, Id, AccountId 
+							FROM Contact 
+							WHERE AccountId IN :accountIds 
+							ORDER BY FirstName ASC]) {
+			// Loop through each Contact and add the Account Id and Contact to the map
+			if (!accountToContactMap.containsKey(con.AccountId)) {
+				accountToContactMap.put(con.AccountId, con);
+			}
+		}
+	
+		// Loop through each Opportunity
+		for (Opportunity opp : opportunityDetailsForClosedWon) {
+			if (opp.AccountId != null && accountToContactMap.containsKey(opp.AccountId)) {
+				// Update the Opportunity primary contact from accountToContactMap
+				opp.Primary_Contact__c = accountToContactMap.get(opp.AccountId).Id;
+			}
+		}
+	
+		// Perform a single update
 		update opportunityDetailsForClosedWon;
-
-		
-
 	}
 }
