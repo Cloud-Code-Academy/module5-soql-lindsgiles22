@@ -91,17 +91,11 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetTasksDueNextWeek method to cover this method
 	 */
 	public static Map<Id, Task> getTasksDueNextWeek() {
-		// Initialize map
-		Map<Id,Task> taskDueDates = new Map<Id, Task>();
-	 
 	  	// Query tasks where ActivityDate is within the next 7 days
-	  	List<Task> tasks = [SELECT Id FROM Task WHERE ActivityDate <= :System.today().addDays(7)];
+	  	List<Task> tasks = [SELECT Id FROM Task WHERE ActivityDate = NEXT_N_DAYS:7];
 	  
-		// Populate the map with Task Id as key and Task record as the value
-		for (Task t : tasks) {
-			taskDueDates.put(t.Id, t);
-		}
-	  	return taskDueDates;
+		// Convert the list to a map with Task Id as the key
+		return new Map<Id, Task>(tasks);
 	}
 
 	/**
